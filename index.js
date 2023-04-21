@@ -17,22 +17,6 @@ function epochToDateTime(epochTime){
   return dateTime;
 }
 
-// Start receiving real-time data from Firebase
-var database = 'UsersData/' + uid.toString() + '/readings';
-var dataRef = firebase.database().ref(database);
-
-dataRef.on('value', function(snapshot) {
-  var data = snapshot.val();
-  var gsrAverage = jsonData.gsr_average;
-  
-  // loop through data and plot values on the chart
-  for (var timestamp in data) {
-    if (timestamp !== 'gsr_average' && timestamp !== 'sensorValue') {
-      plotValues(chart, timestamp, data[timestamp], gsrAverage);
-    }
-  }
-});
-
 // function to plot values on charts 
 function plotValues(chart, timestamp, value, gsrAverage){
   var x = epochToJsDate(timestamp).getTime();
@@ -44,29 +28,7 @@ function plotValues(chart, timestamp, value, gsrAverage){
     chart.series[0].addPoint([x, y], true, false, true);
   }
 
-  if (y > gsrAverage + 30) {
-    chart.update({
-      series: [{
-        color: '#FFC107' // yellow line color for high values
-      }]
-    });
-  } else if (y > gsrAverage + 60) {
-    chart.update({
-      series: [{
-        color: '#FF0000' // red line color for low values
-      }]
-    });
-  } else {
-    chart.update({
-      series: [{
-        color: '#00FF00' // green line color for low values
-      }]
-    });
-  }
-}
-
-
-// DOM elements
+ // DOM elements
 const loginElement = document.querySelector('#login-form');
 const contentElement = document.querySelector("#content-sign-in");
 const userDetailsElement = document.querySelector('#user-details');
