@@ -17,16 +17,17 @@ function epochToDateTime(epochTime){
   return dateTime;
 }
 
-// function to plot values on charts 
-function plotValues(chart, timestamp, value, gsrAverage){
+// function to plot values on charts
+function plotValues(chart, timestamp, value){
   var x = epochToJsDate(timestamp).getTime();
   var y = Number (value);
-
+  
   if(chart.series[0].data.length > 40) {
     chart.series[0].addPoint([x, y], true, true, true);
   } else {
     chart.series[0].addPoint([x, y], true, false, true);
   }
+}
 
  // DOM elements
 const loginElement = document.querySelector('#login-form');
